@@ -1,6 +1,5 @@
-import { useContext, useEffect, createContext, useState } from "react";
-//import axios from "axios";
-import { Modal } from "./component/Modal";
+import { useContext, useEffect, createContext, useState } from "react";//import axios from "axios";
+import ReactModal from "react-modal";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Card from "@material-ui/core/Card";
@@ -39,14 +38,15 @@ const themes = {
 const ThemeContext = createContext();
 
 export default function Context(props){
-    const [showModal, setShowModal] = useState(false);
     const classes = styles();
     const {user, isdark, amt} = props;
     const [valueTheme] = useState(isdark?themes.dark:themes.light);
     const [suser] = useState(user);
     const [data, setData] = useState([]);
     const [myamt, setAmt] = useState(amt);
-    console.log(myamt);
+
+    const [isModal, setModal] = useState(false);
+    const [result, setResult] = useState([]);    console.log(myamt);
 
     const countUp = (e) => {
         console.log(e)
@@ -72,24 +72,11 @@ export default function Context(props){
         }))
     };
 
-    const openModal = () => {
-        setShowModal(true);
-      };
-
-      const handleChangeUserScore = ( id ) => {
-        setAmt((prev) =>
-          prev.map((userScore) => {
-            if (userScore.id === id) {
-              return {
-                ...userScore,
-                amount: userScore.amount + 1
-              };
-            } else {
-              return userScore;
-            }
-          })
-        );
-      };
+    const handleModal = (results) => {
+        setModal(true);
+        setResult(results);
+        console.log(result);
+    };
 
     useEffect(() => {
         fetch("http://localhost:3001/data")
@@ -105,6 +92,17 @@ export default function Context(props){
 
     return(
         <ThemeContext.Provider value={valueTheme}>
+            <ReactModal 
+           isOpen={isModal}
+           contentLabel="Modal #2 Global Style Override Example"
+           onRequestClose={() => setModal(false)}
+        >
+          <p>{`${result.desc.cpu}`}</p>
+          <p>{`${result.desc.ram}`}</p>
+          <p>{`${result.desc.vga}`}</p>
+          <p>{`${result.desc.str}`}</p>
+          <button onClick={() => setModal(false)}>Close Modal</button>
+        </ReactModal>
             <div className="contentWrapper" style = {{backgroundColor: `${valueTheme.background}`}}>
             <div className="bg-white shadow">
                 <div style={{ marginTop: 20 }}>
@@ -143,9 +141,7 @@ export default function Context(props){
                                 </table>
                               )
                                }})} 
-                            <div><Button color="primary" variant="contained" onClick={openModal}>Open Modal</Button>
-                                {showModal ? <Modal setShowModal={setShowModal} /> : null}  
-                            </div> 
+                            <Button color="primary" variant="contained" onClick={() => handleModal(data)}>Open Modal</Button>
                         </CardContent>
                         </CardActionArea>
                         </Card>
