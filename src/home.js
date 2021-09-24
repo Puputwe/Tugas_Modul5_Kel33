@@ -1,4 +1,5 @@
-import { useContext, useEffect, createContext, useState } from "react";//import axios from "axios";
+import { useContext, useEffect, createContext, useState } from "react";
+import axios from "axios";
 import ReactModal from "react-modal";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -44,9 +45,9 @@ export default function Context(props){
     const [suser] = useState(user);
     const [data, setData] = useState([]);
     const [myamt, setAmt] = useState(amt);
-
     const [isModal, setModal] = useState(false);
-    const [result, setResult] = useState([]);    console.log(myamt);
+    const [result, setResult] = useState([]);    
+    console.log(result);
 
     const countUp = (e) => {
         console.log(e)
@@ -79,38 +80,40 @@ export default function Context(props){
     };
 
     useEffect(() => {
-        fetch("http://localhost:3001/data")
-            .then((Response) => Response.json())
-            .then((data) => {
-                setData(data);
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        axios({
+            method: "get",
+            url: "http://localhost:3001/data",
+            headers: {
+                accept: "*/*"
+            }
+        }).then((data)=>{
+            setData(data.data);
+            console.log(data.data[1]);
+            setResult(data.data[1]);
+        }).catch((error)=>{console.log(error)})
+        
     }, []);
 
     return(
         <ThemeContext.Provider value={valueTheme}>
-            <ReactModal 
-           isOpen={isModal}
-           contentLabel="Modal #2 Global Style Override Example"
-           onRequestClose={() => setModal(false)}
-        >
-          <p>{`${result.desc.cpu}`}</p>
-          <p>{`${result.desc.ram}`}</p>
-          <p>{`${result.desc.vga}`}</p>
-          <p>{`${result.desc.str}`}</p>
-          <button onClick={() => setModal(false)}>Close Modal</button>
-        </ReactModal>
+            <ReactModal isOpen={isModal}>
+                <div>
+                <b>Deskripsi produk :</b>
+                <p>{isModal&&`${result.desc.cpu}`}</p>
+                <p>{isModal&&`${result.desc.ram}` }</p>
+                <p>{isModal&&`${result.desc.vga}` }</p>
+                <p>{isModal&&`${result.desc.str}` }</p>
+                <button onClick={() => setModal(false)}>Tutup</button>
+                </div>
+            </ReactModal>
             <div className="contentWrapper" style = {{backgroundColor: `${valueTheme.background}`}}>
             <div className="bg-white shadow">
                 <div style={{ marginTop: 20 }}>
                 <h1>KATALOG LAPTOP</h1>
                 <Grid container md={10} spacing={5} style={{ marginTop:"30px", marginLeft:"auto", marginRight:"auto"}}>
-                {data.map((data) => {
+                {data.map((datas) => {
                     return(
-                    <Grid item key={data.id} md={3} >
+                    <Grid item key={datas.id} md={3} >
                         <Card className={classes.paper}>
                         <CardActionArea>
                             <CardMedia
@@ -120,15 +123,15 @@ export default function Context(props){
                                     paddingTop: "5%",
                                     }}
                                 component="img"
-                                image={data.image}
+                                image={datas.image}
                                 alt="Gambar"
                                 />
                             <CardContent>
                             <Typography style={{ fontWeight: "bold" }}>
-                            {data.nama}<sup>{`${data.isads && data.isads === "True" ? "ads" : ""}`}</sup>
+                            {datas.nama}<sup>{`${datas.isads && datas.isads === "True" ? "ads" : ""}`}</sup>
                             </Typography>
                             <Typography variant="h6" color="text.secondary">
-                            <NumberFormat value={data.harga} displayType={'text'} thousandSeparator={"."} decimalSeparator={","} prefix={'Rp'} />
+                            <NumberFormat value={datas.harga} displayType={'text'} thousandSeparator={"."} decimalSeparator={","} prefix={'Rp'} />
                             </Typography>
                               {myamt.map((damt) => {if(data.id==damt.id){
                                 return(
@@ -141,7 +144,7 @@ export default function Context(props){
                                 </table>
                               )
                                }})} 
-                            <Button color="primary" variant="contained" onClick={() => handleModal(data)}>Open Modal</Button>
+                            <Button color="primary" variant="contained" onClick={() => handleModal(datas)}>Open Modal</Button>
                         </CardContent>
                         </CardActionArea>
                         </Card>

@@ -26,9 +26,29 @@
             "vga":"?",
             "str":"?"
         }, "isads":"False"},
-        {"id":4, "nama":"Lenovo Ideapad 320", "harga":"10555000", "lowend":true,"isPriceBold":"True", "image":"./assets/img/Laptop4.png", "isads":"False"},
-        {"id":5, "nama":"Asus Vivobook S15", "harga":"11000000", "lowend":true,"isPriceBold":"True", "image":"./assets/img/asuss15.png", "isads":"False"},
-        {"id":6, "nama":"Dell Inspiron GAMING 15 5575 RYZEN 5", "harga":"8499000", "lowend":true, "isPriceBold":"True", "image":"./assets/img/dellgame.png", "isads":"False"},
-        {"id":7, "nama":"Dell XPS 15 2-in-1", "harga":"20799000", "highend":true, "isPriceBold":"True", "image":"./assets/img/Laptop2.jpg", "isads":"False"}
+        {"id":4, "nama":"Lenovo Ideapad 320", "harga":"10555000", "lowend":true,"isPriceBold":"True", "image":"./assets/img/Laptop4.png", "desc":{
+            "cpu":"?",
+            "ram":"? GB",
+            "vga":"?",
+            "str":"?"
+        }, "isads":"False"},
+        {"id":5, "nama":"Asus Vivobook S15", "harga":"11000000", "lowend":true,"isPriceBold":"True", "image":"./assets/img/asuss15.png", "desc":{
+            "cpu":"?",
+            "ram":"? GB",
+            "vga":"?",
+            "str":"?"
+        }, "isads":"False"},
+        {"id":6, "nama":"Dell Inspiron GAMING 15 5575 RYZEN 5", "harga":"8499000", "lowend":true, "isPriceBold":"True", "image":"./assets/img/dellgame.png", "desc":{
+            "cpu":"?",
+            "ram":"? GB",
+            "vga":"?",
+            "str":"?"
+        }, "isads":"False"},
+        {"id":7, "nama":"Dell XPS 15 2-in-1", "harga":"20799000", "highend":true, "isPriceBold":"True", "image":"./assets/img/Laptop2.jpg", "desc":{
+            "cpu":"?",
+            "ram":"? GB",
+            "vga":"?",
+            "str":"?"
+        }, "isads":"False"}
     ]
 }
