@@ -47,7 +47,8 @@ export default function Context(props){
     const [myamt, setAmt] = useState(amt);
     const [isModal, setModal] = useState(false);
     const [result, setResult] = useState([]);    
-    console.log(result);
+    //console.log(result);
+    console.log(myamt)
 
     const countUp = (e) => {
         console.log(e)
@@ -133,13 +134,13 @@ export default function Context(props){
                             <Typography variant="h6" color="text.secondary">
                             <NumberFormat value={datas.harga} displayType={'text'} thousandSeparator={"."} decimalSeparator={","} prefix={'Rp'} />
                             </Typography>
-                              {myamt.map((damt) => {if(data.id==damt.id){
+                              {myamt.map((damt) => {if(datas.id==damt.id){
                                 return(
                                 <table align="center">
                                 <tr>
-                                <td><button variant="contained" id={damt.id} onClick={() => countDn(damt.id)}>-</button></td>
+                                <td><Button variant="contained" id={damt.id} onClick={() => countDn(damt.id)}>-</Button></td>
                                 <td><p ></p>{`${damt.amount}`}</td>
-                                <td><button variant="contained" id={damt.id} onClick={() => countUp(damt.id)}>+</button></td>
+                                <td><Button variant="contained" id={damt.id} onClick={() => countUp(damt.id)}>+</Button></td>
                                 </tr>
                                 </table>
                               )
